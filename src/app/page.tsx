@@ -5,6 +5,7 @@ import Hero from '@/components/hero/Hero'
 import { getApolloClient } from '@/lib/apollo-client'
 import { fetchSeoMetadata } from '@/lib/seo'
 
+import CarouselBeyond from '@/components/carouselBeyond/CarouselBeyond'
 import PostsList from '@/components/postsList/PostsList'
 import { GET_PAGE } from '@/graphql/queries/getPage'
 import { GET_POSTS } from '@/graphql/queries/getPosts'
@@ -63,6 +64,7 @@ const HomePage = async () => {
       {page.content && (
         <div dangerouslySetInnerHTML={{ __html: wpToTailwind(page.content) }} />
       )}
+      <CarouselBeyond />
       <PostsList posts={posts} />
     </div>
   )
