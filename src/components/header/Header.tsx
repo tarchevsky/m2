@@ -1,6 +1,7 @@
 'use client'
 
 import Burger from '@/components/burger/Burger'
+import Logo from '@/components/logo/Logo'
 import ThemeToggle from '@/components/themeToggle/ThemeToggle'
 import cn from 'clsx'
 import Link from 'next/link'
@@ -9,6 +10,11 @@ import styles from './Header.module.scss'
 
 const Header = () => {
   const [isMenuActive, setIsMenuActive] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const menuItems = [
     { path: '/', label: 'Главная' },
@@ -29,11 +35,7 @@ const Header = () => {
 
   return (
     <header className="cont relative flex justify-between md:justify-between items-center py-4">
-      <Link href="/" className="my-4 flex flex-col justify-center z-20">
-        <span className="text-8xl font-thin leading-10">M2</span>
-        <br />
-        <span className="font-thin text-center">салон красоты</span>
-      </Link>
+      <Logo className="my-4 flex flex-col justify-center z-20" type="file" />
       <nav
         className={cn(
           { [styles.active]: isMenuActive },
