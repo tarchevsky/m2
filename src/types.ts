@@ -4,102 +4,112 @@ import { ReactNode } from 'react'
 // Metrika.tsx
 
 export interface MetrikaProps {
-	yId: string
+  yId: string
 }
 
 // Meta.tsx
 
 export interface MetaProps {
-	title?: string
-	metaDesc?: string
+  title?: string
+  metaDesc?: string
+}
+
+// LayoutProps
+
+export interface LayoutProps {
+  tag?: 'div' | 'section' | 'main' | 'header' | 'footer' | 'article'
+  children: ReactNode
+  className?: string
+  delay?: number
+  style?: string
 }
 
 // Htag.tsx
 
 export interface HtagProps {
-	tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-	children: string | ReactNode
-	className?: string
+  tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  children: string | ReactNode
+  className?: string
 }
 
 // Button.tsx
 
 export interface ButtonProps {
-	tag: 'button' | 'link'
-	type?: 'button' | 'submit'
-	text: string
-	ariaLabel: string
-	href?: Url | string
-	className?: string
-	modalContent?: string | ReactNode
+  tag: 'button' | 'link'
+  type?: 'button' | 'submit'
+  text: string
+  ariaLabel: string
+  href?: Url | string
+  className?: string
+  modalContent?: string | ReactNode
 }
 
 // Hero.tsx
 
 export interface HeroProps {
-	title?: string
-	buttonText?: string
-	src: string
-	alt?: string
+  title?: string
+  buttonText?: string
+  src: string
+  alt?: string
 }
 
 // page.tsx
 
 export interface PageProps {
-	posts: PostProps[]
-	page: any
-	node: any
-	pageId: string
+  posts: PostProps[]
+  page: any
+  node: any
+  pageId: string
 }
 
 // [postSlug].tsx
 
 export interface Params {
-	postSlug: string
+  postSlug: string
 }
 
 export type Site = {
-	title: string
+  title: string
 }
 
 export interface PostEdge {
-	node: {
-		id: string
-		title: string
-		slug: string
-		content: string
-	}
+  node: {
+    id: string
+    title: string
+    slug: string
+    content: string
+  }
 }
 
 export interface PostPageProps {
-	post: PostProps
-	site: Site
-	path: string
-	content: string
+  post: PostProps
+  site: Site
+  path: string
+  content: string
 }
 
 // index.tsx + [postSlug].tsx
 
 export type PostProps = {
-	slug: string
-	title: string
-	excerpt: string
-	path: string
-	content: string
-	seo: {
-		title: string
-		metaDesc: string
-	}
+  slug: string
+  title: string
+  excerpt: string
+  path: string
+  content: string
+  seo: {
+    title: string
+    metaDesc: string
+  }
 }
 
 // Burger.tsx
 
 export interface BurgerProps {
-	toggleMenu: () => void
+  toggleMenu: () => void
 }
 
 // ThemeToggle.tsx
 
 export interface ThemeToggleProps {
-	className?: string
+  className?: string
 }
