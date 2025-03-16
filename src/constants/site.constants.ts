@@ -1,1 +1,1 @@
-export const SITE_NAME: string = 'my-next';
+export const SITE_NAME: string = 'm2-salon'
