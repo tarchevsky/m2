@@ -56,12 +56,14 @@ const HomePage = async () => {
         <Hero
           src={hero.heroImage.node.link}
           alt={hero.heroImage.node.altText || 'Альтернативный текст'}
+          buttonText={hero.heroBtn}
+          title={hero.heroText}
         />
       )}
       {page.content && (
         <div dangerouslySetInnerHTML={{ __html: wpToTailwind(page.content) }} />
       )}
-      <PostsList posts={posts} /> {/* Используем новый компонент */}
+      <PostsList posts={posts} />
     </div>
   )
 }

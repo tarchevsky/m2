@@ -4,7 +4,7 @@ import Image from 'next/image'
 const Hero = ({ title, buttonText, src, alt }: HeroProps) => {
   return (
     <main className="hero md:min-h-[80vh]">
-      <div className="hero-content flex-row p-0">
+      <div className="hero-content flex-row gap-12 p-0">
         <Image
           className="md:w-[400px] rounded-box shadow-2xl"
           src={src}
