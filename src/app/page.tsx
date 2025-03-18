@@ -2,7 +2,6 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { Metadata } from 'next'
 
 import Hero from '@/components/hero/Hero'
-import IsrDebugIndicator from '@/components/IsrDebugIndicator'
 import { getApolloClient } from '@/lib/apollo-client'
 import { fetchSeoMetadata } from '@/lib/seo'
 
@@ -41,9 +40,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const HomePage = async () => {
-  // Добавим время последней генерации страницы для проверки ISR
-  const generationTime = new Date().toISOString()
-
   const apolloClient: ApolloClient<NormalizedCacheObject> = getApolloClient()
 
   // Параллельное выполнение запросов
@@ -120,13 +116,6 @@ const HomePage = async () => {
 
   return (
     <div>
-      {/* Индикатор времени последней генерации (для тестирования ISR) */}
-      <IsrDebugIndicator
-        pageId="homepage"
-        serverGenerationTime={generationTime}
-        showOnlyInDevelopment={true}
-      />
-
       {page.pagecontent && (
         <Hero
           src={hero.heroImage.node.link}

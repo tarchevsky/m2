@@ -3,7 +3,6 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-import IsrDebugIndicator from '@/components/IsrDebugIndicator'
 import { GET_CATEGORY_BY_SLUG } from '@/graphql/queries/getCategoryBySlug'
 import { GET_POST_BY_SLUG } from '@/graphql/queries/getPostBySlug'
 import { Post } from '@/graphql/types/postTypes'
@@ -49,9 +48,6 @@ const CategoryPostPage = async ({ params }: CategoryPostPageProps) => {
   // Уникальный идентификатор для страницы поста
   const pageId = `post-${params.category}-${params.slug}`
 
-  // Записываем серверное время генерации
-  const generationTime = new Date().toISOString()
-
   const { slug, category } = params
   const apolloClient: ApolloClient<NormalizedCacheObject> = getApolloClient()
 
@@ -73,13 +69,6 @@ const CategoryPostPage = async ({ params }: CategoryPostPageProps) => {
 
   return (
     <div>
-      {/* Индикатор времени последней генерации (для тестирования ISR) */}
-      <IsrDebugIndicator
-        pageId={pageId}
-        serverGenerationTime={generationTime}
-        showOnlyInDevelopment={true}
-      />
-
       <div className="cont mb-8">
         <main>
           {post.featuredImage ? (

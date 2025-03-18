@@ -3,7 +3,6 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import CategoryPosts from '@/components/categoryPosts/CategoryPosts'
-import IsrDebugIndicator from '@/components/IsrDebugIndicator'
 import { GET_CATEGORIES } from '@/graphql/queries/getCategories'
 import { GET_CATEGORY_BY_SLUG } from '@/graphql/queries/getCategoryBySlug'
 import { PageProps } from '@/graphql/types/commonTypes'
@@ -50,9 +49,6 @@ const CategoryPage = async ({ params }: PageProps) => {
     notFound()
   }
 
-  // Записываем серверное время генерации
-  const generationTime = new Date().toISOString()
-
   const apolloClient: ApolloClient<NormalizedCacheObject> = getApolloClient()
 
   const { data } = await apolloClient.query({
@@ -74,13 +70,6 @@ const CategoryPage = async ({ params }: PageProps) => {
 
   return (
     <div className="mx-auto py-8">
-      {/* Индикатор времени последней генерации (для тестирования ISR) */}
-      <IsrDebugIndicator
-        pageId={`category-${category}`}
-        serverGenerationTime={generationTime}
-        showOnlyInDevelopment={true}
-      />
-
       <h1 className="cont text-3xl font-bold mb-6">{categoryData.name}</h1>
       <CategoryPosts categoryName={categoryData.name} posts={categoryPosts} />
     </div>

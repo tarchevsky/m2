@@ -31,7 +31,7 @@ const FEATURE_CATEGORY_IDS = ['dGVybTo1', 'dGVybTo0']
 Вставляем на страницу под объявлением страницы
 
 ```tsx
-const generationTime = recordGenerationTime('название-страницы-для-понятности')
+const generationTime = new Date().toISOString()
 ```
 
 И компонент
@@ -48,10 +48,36 @@ https://sitename.ru/api/revalidate?path=/&secret=123456
 
 / - это адрес страницы.
 
-Либо ставим в компоненте
+Либо ставим:
+
+в странице
 
 ```tsx
-<IsrDebugIndicator pageId={pageId} showOnlyInDevelopment={false} />
+<IsrDebugIndicator
+  pageId="homepage"
+  serverGenerationTime={generationTime}
+  showOnlyInDevelopment={true}
+/>
+```
+
+в шаблоне категории
+
+```tsx
+<IsrDebugIndicator
+  pageId={`category-${category}`}
+  serverGenerationTime={generationTime}
+  showOnlyInDevelopment={true}
+/>
+```
+
+в шаблоне поста
+
+```tsx
+<IsrDebugIndicator
+  pageId="homepage"
+  serverGenerationTime={generationTime}
+  showOnlyInDevelopment={true}
+/>
 ```
 
 Либо внутри самого компонента
