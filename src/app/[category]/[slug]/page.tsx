@@ -97,7 +97,9 @@ const CategoryPostPage = async ({ params }: CategoryPostPageProps) => {
                   Рубрика: <Link href={`/${category}`}>{categoryName}</Link>
                 </div>
               </div>
-              <Link href={`/${category}`}>&lt; Назад к {categoryName}</Link>
+              <Link href={`/${category}`}>
+                &lt; Назад к категории {categoryName}
+              </Link>
             </>
           ) : (
             <>
@@ -110,7 +112,9 @@ const CategoryPostPage = async ({ params }: CategoryPostPageProps) => {
                   Рубрика: <Link href={`/${category}`}>{categoryName}</Link>
                 </div>
               </div>
-              <Link href={`/${category}`}>&lt; Назад к {categoryName}</Link>
+              <Link href={`/${category}`}>
+                &lt; Назад к категории {categoryName}
+              </Link>
             </>
           )}
         </main>
