@@ -77,6 +77,7 @@ const CategoryPostPage = async ({ params }: CategoryPostPageProps) => {
       <IsrDebugIndicator
         pageId={pageId}
         serverGenerationTime={generationTime}
+        showOnlyInDevelopment={true}
       />
 
       <div className="cont mb-8">

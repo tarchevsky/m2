@@ -78,6 +78,7 @@ const CategoryPage = async ({ params }: PageProps) => {
       <IsrDebugIndicator
         pageId={`category-${category}`}
         serverGenerationTime={generationTime}
+        showOnlyInDevelopment={true}
       />
 
       <h1 className="cont text-3xl font-bold mb-6">{categoryData.name}</h1>

@@ -124,7 +124,7 @@ const HomePage = async () => {
       <IsrDebugIndicator
         pageId="homepage"
         serverGenerationTime={generationTime}
-        showOnlyInDevelopment={false}
+        showOnlyInDevelopment={true}
       />
 
       {page.pagecontent && (
