@@ -1,4 +1,5 @@
 import { PostsData } from '@/graphql/types/postTypes'
+import { CategoryData } from './categoryTypes'
 
 export interface Seo {
   metaDesc: string
@@ -29,4 +30,4 @@ export interface PageData {
   page: Content
 }
 
-export type CombinedData = PostsData & PageData
+export type CombinedData = PostsData & PageData & CategoryData

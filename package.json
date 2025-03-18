@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "isr:test": "node scripts/test-isr.mjs",
+    "isr:home": "node scripts/test-isr.mjs / \"$REVALIDATE_SECRET\"",
+    "isr:category": "node scripts/test-isr.mjs"
   },
   "dependencies": {
     "@apollo/client": "3",
