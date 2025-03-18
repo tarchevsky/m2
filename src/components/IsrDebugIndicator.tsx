@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 export default function IsrDebugIndicator({
   pageId,
   className = 'p-2 bg-gray-100 text-xs text-gray-600',
-  showOnlyInDevelopment = true,
+  showOnlyInDevelopment = false,
 }: {
   pageId: string
   className?: string
