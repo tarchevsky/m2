@@ -50,6 +50,9 @@ const CategoryPage = async ({ params }: PageProps) => {
     notFound()
   }
 
+  // Записываем серверное время генерации
+  const generationTime = new Date().toISOString()
+
   const apolloClient: ApolloClient<NormalizedCacheObject> = getApolloClient()
 
   const { data } = await apolloClient.query({
@@ -72,7 +75,11 @@ const CategoryPage = async ({ params }: PageProps) => {
   return (
     <div className="mx-auto py-8">
       {/* Индикатор времени последней генерации (для тестирования ISR) */}
-      <IsrDebugIndicator pageId="homepage" />
+      <IsrDebugIndicator
+        pageId={`category-${category}`}
+        serverGenerationTime={generationTime}
+      />
+
       <h1 className="cont text-3xl font-bold mb-6">{categoryData.name}</h1>
       <CategoryPosts categoryName={categoryData.name} posts={categoryPosts} />
     </div>

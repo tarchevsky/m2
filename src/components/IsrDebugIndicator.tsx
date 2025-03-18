@@ -1,6 +1,6 @@
 'use client'
 
-import { formatGenerationTime, recordGenerationTime } from '@/utils/isr-helpers'
+import { formatGenerationTime } from '@/utils/isr-helpers'
 import { useEffect, useState } from 'react'
 
 /**
@@ -9,18 +9,21 @@ import { useEffect, useState } from 'react'
  */
 export default function IsrDebugIndicator({
   pageId,
+  serverGenerationTime,
   className = 'p-2 bg-gray-100 text-xs text-gray-600',
-  showOnlyInDevelopment = false,
+  showOnlyInDevelopment = true,
 }: {
   pageId: string
+  serverGenerationTime?: string
   className?: string
   showOnlyInDevelopment?: boolean
 }) {
   const [timestamp, setTimestamp] = useState<string>('')
 
   useEffect(() => {
-    // На клиенте записываем и показываем время генерации
-    const generationTime = recordGenerationTime(pageId)
+    // Используем серверное время, если оно передано
+    const generationTime = serverGenerationTime || new Date().toISOString()
+
     setTimestamp(formatGenerationTime(generationTime))
 
     // Создаем элемент в консоли браузера для удобства отладки
@@ -29,7 +32,7 @@ export default function IsrDebugIndicator({
     console.log(`Время генерации: ${generationTime}`)
     console.log(`Formatted: ${formatGenerationTime(generationTime)}`)
     console.groupEnd()
-  }, [pageId])
+  }, [pageId, serverGenerationTime])
 
   // Не показываем в production, если установлен флаг
   if (showOnlyInDevelopment && process.env.NODE_ENV !== 'development') {

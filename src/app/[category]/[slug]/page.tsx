@@ -9,7 +9,6 @@ import { GET_POST_BY_SLUG } from '@/graphql/queries/getPostBySlug'
 import { Post } from '@/graphql/types/postTypes'
 import { getApolloClient } from '@/lib/apollo-client'
 import { formatDate } from '@/utils/formatDate'
-import { recordGenerationTime } from '@/utils/isr-helpers'
 
 export const revalidate = 3600 // Ревалидация каждый час (3600 секунд)
 
@@ -48,8 +47,10 @@ export async function generateMetadata({
 
 const CategoryPostPage = async ({ params }: CategoryPostPageProps) => {
   // Уникальный идентификатор для страницы поста
-  const pageId = `${params.slug}`
-  const generationTime = recordGenerationTime(pageId)
+  const pageId = `post-${params.category}-${params.slug}`
+
+  // Записываем серверное время генерации
+  const generationTime = new Date().toISOString()
 
   const { slug, category } = params
   const apolloClient: ApolloClient<NormalizedCacheObject> = getApolloClient()
@@ -73,7 +74,10 @@ const CategoryPostPage = async ({ params }: CategoryPostPageProps) => {
   return (
     <div>
       {/* Индикатор времени последней генерации (для тестирования ISR) */}
-      <IsrDebugIndicator pageId={pageId} />
+      <IsrDebugIndicator
+        pageId={pageId}
+        serverGenerationTime={generationTime}
+      />
 
       <div className="cont mb-8">
         <main>

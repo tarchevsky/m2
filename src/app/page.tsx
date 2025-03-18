@@ -5,7 +5,6 @@ import Hero from '@/components/hero/Hero'
 import IsrDebugIndicator from '@/components/IsrDebugIndicator'
 import { getApolloClient } from '@/lib/apollo-client'
 import { fetchSeoMetadata } from '@/lib/seo'
-import { recordGenerationTime } from '@/utils/isr-helpers'
 
 import CarouselBeyond from '@/components/carouselBeyond/CarouselBeyond'
 import CategoryLinks from '@/components/categoryLinks/CategoryLinks'
@@ -43,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const HomePage = async () => {
   // Добавим время последней генерации страницы для проверки ISR
-  const generationTime = recordGenerationTime('homepage')
+  const generationTime = new Date().toISOString()
 
   const apolloClient: ApolloClient<NormalizedCacheObject> = getApolloClient()
 
@@ -122,7 +121,11 @@ const HomePage = async () => {
   return (
     <div>
       {/* Индикатор времени последней генерации (для тестирования ISR) */}
-      <IsrDebugIndicator pageId="homepage" />
+      <IsrDebugIndicator
+        pageId="homepage"
+        serverGenerationTime={generationTime}
+        showOnlyInDevelopment={false}
+      />
 
       {page.pagecontent && (
         <Hero
