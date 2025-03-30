@@ -47,6 +47,7 @@ export async function fetchHomePageData(
 
   return {
     page: pageResult.data.page,
+    pagecontent: pageResult.data.page.pagecontent,
     posts: postsResult.data,
     category: categoryResult.data.category,
     categoryPosts: categoryPostsResult.data.posts.edges || [],

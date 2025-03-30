@@ -41,6 +41,7 @@ const HomePage = async () => {
 
   const {
     page,
+    pagecontent,
     posts: postsData,
     category: categoryData,
     categoryPosts: categoryPostsData,
@@ -53,8 +54,6 @@ const HomePage = async () => {
     CATEGORY_IDS,
   )
 
-  const hero = page.pagecontent.hero
-
   const posts = transformPosts(postsData)
   const categoryPosts = transformCategoryPosts(categoryData)
   const postsByCategories = transformPostsByCategories(categoryPostsData)
@@ -62,12 +61,14 @@ const HomePage = async () => {
 
   return (
     <div>
-      {hero && (
+      {pagecontent.hero && (
         <Hero
-          src={hero.heroImage.node.link}
-          alt={hero.heroImage.node.altText || 'Альтернативный текст'}
-          buttonText={hero.heroBtn}
-          title={hero.heroText}
+          src={pagecontent.hero.heroImage.node.link}
+          alt={
+            pagecontent.hero.heroImage.node.altText || 'Альтернативный текст'
+          }
+          buttonText={pagecontent.hero.heroBtn}
+          title={pagecontent.hero.heroText}
         />
       )}
       {page.content && (
