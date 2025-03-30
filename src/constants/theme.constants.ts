@@ -1,4 +1,4 @@
-export const THEME = 'winter'
+export const THEME = 'wireframe'
 export const DARK_THEME = 'night'
 export const ind_xs = '0 0 25px 0'
 export const ind_sm = '0 0 50px 0'
