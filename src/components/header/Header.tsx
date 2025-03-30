@@ -2,7 +2,6 @@
 
 import Burger from '@/components/burger/Burger'
 import Logo from '@/components/logo/Logo'
-import ThemeToggle from '@/components/themeToggle/ThemeToggle'
 import cn from 'clsx'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -62,9 +61,6 @@ const Header = () => {
               </Link>
             </li>
           ))}
-          <li className="justify-center">
-            <ThemeToggle />
-          </li>
         </ul>
       </nav>
       <Burger toggleMenu={toggleMenu} />
