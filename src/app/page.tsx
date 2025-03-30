@@ -4,22 +4,19 @@ import { Metadata } from 'next'
 import Hero from '@/components/hero/Hero'
 import { getApolloClient } from '@/lib/apollo-client'
 import { fetchSeoMetadata } from '@/lib/seo'
+import { fetchHomePageData } from '@/services/pageService'
 
 import CarouselBeyond from '@/components/carouselBeyond/CarouselBeyond'
 import CategoryLinks from '@/components/categoryLinks/CategoryLinks'
 import CategoryPosts from '@/components/categoryPosts/CategoryPosts'
 import PostsByCategories from '@/components/postsByCategories/PostsByCategories'
 import PostsList from '@/components/postsList/PostsList'
-import { GET_CATEGORIES } from '@/graphql/queries/getCategories'
-import { GET_CATEGORY } from '@/graphql/queries/getCategory'
-import { GET_PAGE } from '@/graphql/queries/getPage'
-import { GET_POSTS } from '@/graphql/queries/getPosts'
-import { GET_POSTS_BY_CATEGORIES } from '@/graphql/queries/getPostsByCategories'
-import { CategoriesData } from '@/graphql/types/categoriesTypes'
-import { CategoryPostsData } from '@/graphql/types/categoryPostsTypes'
-import { CategoryData, CategoryPostProps } from '@/graphql/types/categoryTypes'
-import { PageData } from '@/graphql/types/pageTypes'
-import { PostProps, PostsData } from '@/graphql/types/postTypes'
+import {
+  transformCategories,
+  transformCategoryPosts,
+  transformPosts,
+  transformPostsByCategories,
+} from '@/services/transformService'
 import { wpToTailwind } from '@/utils/wpToTailwind'
 
 export const revalidate = 3600 // Ревалидация каждый час (3600 секунд)
@@ -28,7 +25,7 @@ export const revalidate = 3600 // Ревалидация каждый час (36
 const PAGE_ID = 'cG9zdDo1Mw=='
 const CATEGORY_ID = 'dGVybToz'
 const FEATURE_CATEGORY_IDS = ['dGVybTo1', 'dGVybTo0']
-const CATEGORY_IDS = ['dGVybTo0', 'dGVybTo1']
+const CATEGORY_IDS = ['dGVybTo1', 'dGVybTo0', 'dGVybToxMA==', 'dGVybTo5']
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await fetchSeoMetadata(PAGE_ID)
@@ -42,81 +39,30 @@ export async function generateMetadata(): Promise<Metadata> {
 const HomePage = async () => {
   const apolloClient: ApolloClient<NormalizedCacheObject> = getApolloClient()
 
-  // Параллельное выполнение запросов
-  const [
-    pageResult,
-    postsResult,
-    categoryResult,
-    categoryPostsResult,
-    categoriesResult,
-  ] = await Promise.all([
-    apolloClient.query<PageData>({
-      query: GET_PAGE,
-      variables: { id: PAGE_ID },
-    }),
-    apolloClient.query<PostsData>({
-      query: GET_POSTS,
-    }),
-    apolloClient.query<CategoryData>({
-      query: GET_CATEGORY,
-      variables: { id: CATEGORY_ID },
-    }),
-    apolloClient.query<CategoryPostsData>({
-      query: GET_POSTS_BY_CATEGORIES,
-      variables: { categoryIds: FEATURE_CATEGORY_IDS },
-    }),
-    apolloClient.query<CategoriesData>({
-      query: GET_CATEGORIES,
-      variables: { categoryIds: CATEGORY_IDS },
-    }),
-  ])
+  const {
+    page,
+    posts: postsData,
+    category: categoryData,
+    categoryPosts: categoryPostsData,
+    categories: categoriesData,
+  } = await fetchHomePageData(
+    apolloClient,
+    PAGE_ID,
+    CATEGORY_ID,
+    FEATURE_CATEGORY_IDS,
+    CATEGORY_IDS,
+  )
 
-  const page = pageResult.data.page
   const hero = page.pagecontent.hero
 
-  const postsData = postsResult.data
-  const categoryData = categoryResult.data.category
-  const categoryPostsData = categoryPostsResult.data.posts.edges || []
-  const categoriesData = categoriesResult.data.categories.edges || []
-
-  // Обработка данных постов
-  const posts: PostProps[] =
-    postsData?.posts.edges.map(({ node }) => {
-      const mainCategory = node.categories?.edges[0]?.node
-      return {
-        ...node,
-        path: mainCategory
-          ? `/${mainCategory.slug}/${node.slug}`
-          : `/posts/${node.slug}`,
-      }
-    }) || []
-
-  // Получаем посты из категории
-  const categoryPosts: CategoryPostProps[] =
-    categoryData?.posts.edges.map(({ node }) => ({
-      ...node,
-      path: `/${categoryData.slug}/${node.slug}`,
-    })) || []
-
-  // Обрабатываем посты по категориям
-  const postsByCategories = categoryPostsData.map(({ node }) => {
-    const mainCategory = node.categories?.edges[0]?.node
-    return {
-      ...node,
-      path: mainCategory
-        ? `/${mainCategory.slug}/${node.slug}`
-        : `/posts/${node.slug}`,
-    }
-  })
-
-  // Обрабатываем категории
-  const categories = categoriesData.map(({ node }) => ({
-    ...node,
-  }))
+  const posts = transformPosts(postsData)
+  const categoryPosts = transformCategoryPosts(categoryData)
+  const postsByCategories = transformPostsByCategories(categoryPostsData)
+  const categories = transformCategories(categoriesData)
 
   return (
     <div>
-      {page.pagecontent && (
+      {hero && (
         <Hero
           src={hero.heroImage.node.link}
           alt={hero.heroImage.node.altText || 'Альтернативный текст'}
