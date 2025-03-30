@@ -18,7 +18,7 @@ const PostsList: React.FC<PostsListProps> = ({ posts }) => {
   }
 
   return (
-    <ul className="mb-8">
+    <ul className="ind grid grid-cols-4 gap-6">
       {posts.map((post) => (
         <li key={post.slug}>
           <div className="cont">

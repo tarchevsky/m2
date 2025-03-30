@@ -6,6 +6,17 @@ export interface Seo {
   title: string
 }
 
+export interface Company {
+  height: number
+  name: string
+  width: number
+  src: {
+    node: {
+      link: string
+    }
+  }
+}
+
 export interface Content {
   seo: Seo
   title: string
@@ -23,6 +34,7 @@ export interface Content {
     }
     address?: string
     email?: string
+    companies?: Company[]
   }
 }
 

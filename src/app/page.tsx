@@ -14,9 +14,11 @@ import PostsList from '@/components/postsList/PostsList'
 import {
   transformCategories,
   transformCategoryPosts,
+  transformCompanies,
   transformPosts,
   transformPostsByCategories,
 } from '@/services/transformService'
+import { Companies } from '@/ui/companies/Companies'
 import { wpToTailwind } from '@/utils/wpToTailwind'
 
 export const revalidate = 3600 // Ревалидация каждый час (3600 секунд)
@@ -58,6 +60,7 @@ const HomePage = async () => {
   const categoryPosts = transformCategoryPosts(categoryData)
   const postsByCategories = transformPostsByCategories(categoryPostsData)
   const categories = transformCategories(categoriesData)
+  const companies = transformCompanies(pagecontent.companies)
 
   return (
     <div>
@@ -71,6 +74,7 @@ const HomePage = async () => {
           title={pagecontent.hero.heroText}
         />
       )}
+      <Companies companies={companies} />
       {page.content && (
         <div dangerouslySetInnerHTML={{ __html: wpToTailwind(page.content) }} />
       )}

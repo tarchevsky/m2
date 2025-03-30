@@ -18,6 +18,16 @@ export const GET_PAGE = gql`
         address
         caption
         email
+        companies {
+          height
+          name
+          width
+          src {
+            node {
+              link
+            }
+          }
+        }
       }
       content
       seo {

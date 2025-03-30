@@ -3,17 +3,9 @@ import Image from 'next/image'
 
 const Hero = ({ title, buttonText, src, alt }: HeroProps) => {
   return (
-    <main className="hero md:min-h-[80vh]">
-      <div className="hero-content flex-row gap-12 p-0">
-        <Image
-          className="md:w-[400px] rounded-box shadow-2xl"
-          src={src}
-          alt={alt || 'Картинка без описания'}
-          priority
-          width={600}
-          height={600}
-        />
-        <div>
+    <main className="hero ind md:min-h-[80vh]">
+      <div className="hero-content cont md:cont-left md:pr-0 max-w-none w-full flex-col-reverse md:flex-row justify-between gap-24 p-0">
+        <div className="grid grid-rows-2 gap-6">
           {title ? (
             <h1
               className="md:text-6xl font-bold"
@@ -25,11 +17,21 @@ const Hero = ({ title, buttonText, src, alt }: HeroProps) => {
             ''
           )}
           {buttonText ? (
-            <button className="btn btn-primary btn-lg">{buttonText}</button>
+            <button className="btn btn-primary btn-lg btn-wide">
+              {buttonText}
+            </button>
           ) : (
             ''
           )}
         </div>
+        <Image
+          className="w-full md:w-[800px] rounded-box shadow-2xl"
+          src={src}
+          alt={alt || 'Картинка без описания'}
+          priority
+          width={600}
+          height={600}
+        />
       </div>
     </main>
   )
