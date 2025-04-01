@@ -11,6 +11,7 @@ import CategoryLinks from '@/components/categoryLinks/CategoryLinks'
 import CategoryPosts from '@/components/categoryPosts/CategoryPosts'
 import PostsByCategories from '@/components/postsByCategories/PostsByCategories'
 import PostsList from '@/components/postsList/PostsList'
+import Tiles from '@/components/tiles/Tiles'
 import {
   transformCategories,
   transformCategoryPosts,
@@ -75,6 +76,8 @@ const HomePage = async () => {
         />
       )}
       <Companies companies={companies} />
+      <Tiles tiles={categories} />
+
       {page.content && (
         <div dangerouslySetInnerHTML={{ __html: wpToTailwind(page.content) }} />
       )}
