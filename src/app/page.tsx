@@ -11,7 +11,6 @@ import CategoryLinks from '@/components/categoryLinks/CategoryLinks'
 import CategoryPosts from '@/components/categoryPosts/CategoryPosts'
 import PostsByCategories from '@/components/postsByCategories/PostsByCategories'
 import PostsList from '@/components/postsList/PostsList'
-import Tiles from '@/components/tiles/Tiles'
 import {
   transformCategories,
   transformCategoryPosts,
@@ -20,8 +19,10 @@ import {
   transformPostsByCategories,
 } from '@/services/transformService'
 import { Companies } from '@/ui/companies/Companies'
+import PhotoTiles from '@/ui/photo-tiles/PhotoTiles'
 import Tiles from '@/ui/tiles/Tiles'
 import { wpToTailwind } from '@/utils/wpToTailwind'
+import { photoTilesData } from './photoTiles.data'
 
 export const revalidate = 3600 // Ревалидация каждый час (3600 секунд)
 
@@ -78,6 +79,7 @@ const HomePage = async () => {
       )}
       <Companies companies={companies} />
       <Tiles tiles={categories} />
+      <PhotoTiles tiles={categories} imageData={photoTilesData} />
 
       {page.content && (
         <div dangerouslySetInnerHTML={{ __html: wpToTailwind(page.content) }} />
