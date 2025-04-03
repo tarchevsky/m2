@@ -73,6 +73,7 @@ const CategoryPage = async ({ params }: PageProps) => {
       <h1 className="cont text-3xl font-bold mb-6">{categoryData.name}</h1>
       <CategoryPosts categoryName={categoryData.name} posts={categoryPosts} />
     </div>
+        <h1>{categoryData.name}</h1>
   )
 }
 
