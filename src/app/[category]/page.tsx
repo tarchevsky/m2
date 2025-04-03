@@ -1,15 +1,17 @@
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import CategoryPosts from '@/components/categoryPosts/CategoryPosts'
 import FadeIn from '@/components/fadeIn/FadeIn'
-import { GET_CATEGORIES } from '@/graphql/queries/getCategories'
-import { GET_CATEGORY_BY_SLUG } from '@/graphql/queries/getCategoryBySlug'
 import { PageProps } from '@/graphql/types/commonTypes'
 import { getApolloClient } from '@/lib/apollo-client'
+import { fetchAllCategories, fetchCategoryBySlug } from '@/services/pageService'
+import { transformCategoryBySlugPosts } from '@/services/transformService'
 
 export const revalidate = 3600 // Ревалидация каждый час (3600 секунд)
+
+// Вспомогательная функция для получения клиента Apollo для каждого запроса
+const getClient = () => getApolloClient()
 
 export async function generateMetadata({
   params,
@@ -22,14 +24,11 @@ export async function generateMetadata({
     }
   }
 
-  const apolloClient = getApolloClient()
-
-  const { data } = await apolloClient.query({
-    query: GET_CATEGORY_BY_SLUG,
-    variables: { slug: category },
-  })
-
-  const categoryData = data?.category
+  const apolloClient = getClient()
+  const categoryData = await fetchCategoryBySlug(
+    apolloClient,
+    category as string,
+  )
 
   if (!categoryData) {
     return {
@@ -39,8 +38,10 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${categoryData.name} | Ваш сайт`,
-    description: `Просмотр публикаций в категории ${categoryData.name}`,
+    title: `${categoryData.seo.title}`,
+    description: categoryData.seo.metaDesc
+      ? `${categoryData.seo.metaDesc}`
+      : `На этой странице размещена категория услуг ${categoryData.name}`,
   }
 }
 
@@ -50,24 +51,18 @@ const CategoryPage = async ({ params }: PageProps) => {
     notFound()
   }
 
-  const apolloClient: ApolloClient<NormalizedCacheObject> = getApolloClient()
-
-  const { data } = await apolloClient.query({
-    query: GET_CATEGORY_BY_SLUG,
-    variables: { slug: category },
-  })
-
-  const categoryData = data?.category
+  const apolloClient = getClient()
+  const categoryData = await fetchCategoryBySlug(
+    apolloClient,
+    category as string,
+  )
 
   if (!categoryData) {
     notFound()
   }
 
-  // Получаем посты из категории
-  const categoryPosts = categoryData.posts.edges.map(({ node }: any) => ({
-    ...node,
-    path: `/${categoryData.slug}/${node.slug}`,
-  }))
+  // Получаем и трансформируем посты из категории
+  const categoryPosts = transformCategoryBySlugPosts(categoryData)
 
   return (
     <>
@@ -85,13 +80,10 @@ export default CategoryPage
 
 // Генерация статических маршрутов
 export async function generateStaticParams() {
-  const apolloClient: ApolloClient<NormalizedCacheObject> = getApolloClient()
+  const apolloClient = getClient()
+  const categoriesData = await fetchAllCategories(apolloClient)
 
-  const { data } = await apolloClient.query({
-    query: GET_CATEGORIES,
-  })
-
-  return data.categories.edges.map(({ node }: any) => ({
+  return categoriesData.map(({ node }: any) => ({
     category: node.slug,
   }))
 }

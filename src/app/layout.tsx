@@ -14,7 +14,7 @@ const yId = process.env.NEXT_PUBLIC_YID // id яндекс метрики
 export const metadata: Metadata = {
   title: {
     default: SITE_NAME,
-    template: `%s | ${SITE_NAME}`,
+    template: `%s`,
   },
 }
 

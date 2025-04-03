@@ -31,6 +31,22 @@ export function transformCategoryPosts(
   )
 }
 
+/**
+ * Трансформация постов из категории, полученной по слагу
+ */
+export function transformCategoryBySlugPosts(
+  categoryData: any,
+): CategoryPostProps[] {
+  if (!categoryData || !categoryData.posts || !categoryData.posts.edges) {
+    return []
+  }
+
+  return categoryData.posts.edges.map(({ node }: any) => ({
+    ...node,
+    path: `/${categoryData.slug}/${node.slug}`,
+  }))
+}
+
 export function transformPostsByCategories(
   categoryPostsData: PostsData['posts']['edges'],
 ): PostProps[] {
