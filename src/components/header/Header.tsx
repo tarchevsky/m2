@@ -33,7 +33,7 @@ const Header = () => {
   }, [isMenuActive])
 
   return (
-    <header className="cont relative flex justify-between md:justify-between items-center py-4">
+    <header className="cont relative flex justify-between md:justify-between items-center">
       <Logo className="my-4 flex flex-col justify-center z-20" type="file" />
       <nav
         className={cn(
