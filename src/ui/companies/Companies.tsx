@@ -1,9 +1,10 @@
+import FadeIn from '@/components/fadeIn/FadeIn'
 import Image from 'next/image'
 import { CompaniesProps } from './types'
 
 export const Companies = ({ companies }: CompaniesProps) => {
   return (
-    <div className="cont ind flex gap-2 justify-between items-center">
+    <FadeIn className="cont ind flex gap-4 justify-between items-center flex-wrap">
       {companies.map((company) => (
         <div key={company.id}>
           <Image
@@ -14,6 +15,6 @@ export const Companies = ({ companies }: CompaniesProps) => {
           />
         </div>
       ))}
-    </div>
+    </FadeIn>
   )
 }

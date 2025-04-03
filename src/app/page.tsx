@@ -20,6 +20,7 @@ import {
   transformPostsByCategories,
 } from '@/services/transformService'
 import { Companies } from '@/ui/companies/Companies'
+import Tiles from '@/ui/tiles/Tiles'
 import { wpToTailwind } from '@/utils/wpToTailwind'
 
 export const revalidate = 3600 // Ревалидация каждый час (3600 секунд)

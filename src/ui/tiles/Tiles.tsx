@@ -1,3 +1,4 @@
+import FadeIn from '@/components/fadeIn/FadeIn'
 import { CategoryLinkProps } from '@/graphql/types/categoriesTypes'
 import Link from 'next/link'
 
@@ -11,8 +12,7 @@ const Tiles = ({ tiles }: TilesProps) => {
   }
 
   return (
-    <div className="cont my-12">
-      <h2 className="text-3xl font-bold mb-6">Категории плиткой</h2>
+    <FadeIn className="cont ind my-12">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {tiles.map((tile) => (
           <Link
@@ -26,7 +26,7 @@ const Tiles = ({ tiles }: TilesProps) => {
           </Link>
         ))}
       </div>
-    </div>
+    </FadeIn>
   )
 }
 
