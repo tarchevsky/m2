@@ -3,6 +3,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import CategoryPosts from '@/components/categoryPosts/CategoryPosts'
+import FadeIn from '@/components/fadeIn/FadeIn'
 import { GET_CATEGORIES } from '@/graphql/queries/getCategories'
 import { GET_CATEGORY_BY_SLUG } from '@/graphql/queries/getCategoryBySlug'
 import { PageProps } from '@/graphql/types/commonTypes'
@@ -69,11 +70,14 @@ const CategoryPage = async ({ params }: PageProps) => {
   }))
 
   return (
-    <div className="mx-auto py-8">
-      <h1 className="cont text-3xl font-bold mb-6">{categoryData.name}</h1>
-      <CategoryPosts categoryName={categoryData.name} posts={categoryPosts} />
-    </div>
+    <>
+      <FadeIn className="cont ind">
         <h1>{categoryData.name}</h1>
+      </FadeIn>
+      <FadeIn className="cont">
+        <CategoryPosts posts={categoryPosts} />
+      </FadeIn>
+    </>
   )
 }
 
